@@ -7,8 +7,10 @@ Authors: Joel Burton, Christian Fernandez, Meggie Mahnken.
 """
 
 
-from flask import Flask, render_template, redirect, flash, session, url_for
+from flask import Flask, render_template, redirect, flash, session, request
 import jinja2
+
+from flask_debugtoolbar import DebugToolbarExtension
 
 import melons
 
@@ -25,6 +27,8 @@ app.secret_key = 'this-should-be-something-unguessable'
 # error.
 
 app.jinja_env.undefined = jinja2.StrictUndefined
+
+
 
 
 @app.route("/")
@@ -60,13 +64,23 @@ def show_melon(melon_id):
 def shopping_cart():
     """Display content of shopping cart."""
 
-    melon_type
-    total_amt_per_type
-    total_amt_per_order
+    #If melon_type not in cart, add melon_type to session['cart']
+    #Else append quantity by 1
+    #Find the total of all melon_type quantities
+    #Multiply row 70 by cost of melon
+    #Send to template
+    d = {}
+    melon_type = request.args.get("melon_type")
+    common_name = request.args.get("common_name")
+    price = request.args.get("price")
+    quantity = 0
 
     for item in session['cart']:
+        d[item] = d.get(item, quantity) + 1
 
-
+    return d
+         
+   
     # TODO: Display the contents of the shopping cart.
 
     # The logic here will be something like:
@@ -78,7 +92,7 @@ def shopping_cart():
     #   - keep track of the total amt of the entire order
     # - hand to the template the total order cost and the list of melon types
 
-    return render_template("cart.html")
+    return render_template("cart.html", melon_type=melon_type, common_name=common_name, price=price)
 
 
 @app.route("/add_to_cart/<int:id>")
@@ -95,12 +109,17 @@ def add_to_cart(id):
     else:
         session['cart'].append(id)
 
+    flash('Successfully added to cart')
+
+
+    # print session['cart']
     # TODO: Finish shopping cart functionality
 
     # The logic here should be something like:
     #
     # - add the id of the melon they bought to the cart in the session
 
+    # return render_template("cart.html")
     return redirect('/cart')
 
 @app.route("/login", methods=["GET"])
@@ -133,6 +152,10 @@ def checkout():
     flash("Sorry! Checkout will be implemented in a future version.")
     return redirect("/melons")
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.debug = True
+    DebugToolbarExtension(app)
+    app.run()
+
+# if __name__ == "__main__":
+#     app.run(debug=True)
