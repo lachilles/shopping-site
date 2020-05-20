@@ -23,7 +23,7 @@ dirspec==13.10
 duplicity==0.6.23
 hbget==0.917
 html5lib==0.999
-httplib2==0.8
+httplib2==0.18.0
 ipython==1.2.1
 itsdangerous==0.24
 lockfile==0.8
