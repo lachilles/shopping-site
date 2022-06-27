@@ -43,7 +43,7 @@ python-apt==0.9.3.5ubuntu2
 python-debian==0.1.21-nmu2ubuntu2
 python-twitter==2.2
 pyxdg==0.25
-reportlab==3.0
+reportlab==3.5.55
 requests==2.2.1
 requests-oauthlib==0.6.1
 sessioninstaller==0.0.0
